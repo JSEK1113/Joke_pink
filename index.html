@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>😂 Joke Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #252525;
+      color: #0097b2;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3.5rem;
+      text-shadow:
+        -1px -1px 0 #0097b2,
+        1px -1px 0 #0097b2,
+        -1px  1px 0 #0097b2,
+        1px  1px 0 #0097b2;
+    }
+
+    button {
+      background-color: #0097b2;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 2rem;
+      font-size: 2.5rem;
+      font-weight: bolder;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px  1px 0 white,
+        1px  1px 0 white;
+
+    }
+
+    #setup, #punchline {
+      margin-top: 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    #punchline {
+      color: #ffcc00;
+      margin-top: 1rem;
+      font-size: 2.2rem;
+    }
+
+    #message {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #0097b2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>😂 Want to Hear a Joke?</h1>
+
+  <button onclick="getJoke()">Tell me a joke</button>
+  <button onclick="clearJoke()">No thanks</button>
+
+  <div id="setup"></div>
+  <div id="punchline"></div>
+  <div id="message"></div>
+
+  <!-- funny sound -->
+  <audio id="laugh-sound" src="https://actions.google.com/sounds/v1/human_voices/laugh.ogg" preload="auto"></audio>
+
+  <script>
+    async function getJoke() {
+      try {
+        const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+        const joke = await response.json();
+
+        document.getElementById("setup").textContent = "👉 " + joke.setup;
+        document.getElementById("punchline").textContent = "😂 " + joke.punchline;
+        document.getElementById("message").textContent = "";
+        document.getElementById("laugh-sound").play();
+      } catch (error) {
+        document.getElementById("setup").textContent = "Oops! Couldn't fetch a joke.";
+        document.getElementById("punchline").textContent = "";
+      }
+    }
+
+    function clearJoke() {
+      document.getElementById("setup").textContent = "";
+      document.getElementById("punchline").textContent = "";
+      document.getElementById("message").textContent = "Okay, maybe next time! 😉";
+    }
+  </script>
+
+</body>
+</html>
